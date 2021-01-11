@@ -4,7 +4,9 @@
 cmake_minimum_required (VERSION 3.12)
 
 # Name of the project handled by CMake
-project(ntlm)
+project(ntlm
+        DESCRIPTION "An implementation of ntlm negotiation message using C++"
+       )
 
 # ============================================================== Configuration options ===
 
@@ -12,7 +14,16 @@ option (OPENSSL_USE_STATIC_LIBS "OpenSSL use static libraries"  ON)
 
 # ================================================================== System inspection ===
 
-# find_package(OpenSSL REQUIRED)
+include (FindPackageHandleStandardArgs)
+include (CheckTypeSize)
+
+find_package(OpenSSL REQUIRED)
+
+if (CMAKE_SIZEOF_VOID_P EQUAL 8)
+    set (CMAKE_SYSTEM_64BIT NO)
+else (CMAKE_SIZEOF_VOID_P EQUAL 8)
+    set (CMAKE_SYSTEM_64BIT YES)
+endif (CMAKE_SIZEOF_VOID_P EQUAL 8)
 
 # ================================================================= Build instructions ===
 
